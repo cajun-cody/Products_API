@@ -5,11 +5,11 @@ from .serializers import ProductSerializers
 from .models import Product
 
 
-@api_view(['GET','POST'])
+@api_view(['GET','POST']) #This decorator specifies what requests can be made. 
 def products_list(request):    
     if request.method == 'GET':
-        products = Product.objects.all()
-        serializer = ProductSerializers(products, many=True)
+        products = Product.objects.all() #Query to get all products
+        serializer = ProductSerializers(products, many=True) #Many=True returns multiple
         return Response(serializer.data)
     elif request.method == 'POST':
         serializer = ProductSerializers(data=request.data)
@@ -20,6 +20,10 @@ def products_list(request):
 
 @api_view(['GET'])
 def products_item(request,pk):
-
-
-    return Response(f'ok{pk}')
+    try:
+        product = Product.objects.get(pk=pk)
+        serializer = ProductSerializers(product)
+        return Response(serializer.data)
+    except Product.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    
