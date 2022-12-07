@@ -18,7 +18,7 @@ class Migration(migrations.Migration):
                 ('title', models.CharField(max_length=255)),
                 ('description', models.CharField(max_length=255)),
                 ('price', models.DecimalField(decimal_places=2, max_digits=8)),
-                ('inventory_quantitiy', models.IntegerField()),
+                ('inventory_quantity', models.IntegerField()),
             ],
         ),
     ]
