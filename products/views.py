@@ -19,9 +19,9 @@ def products_list(request):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
         
 
-@api_view(['GET', 'PUT'])
+@api_view(['GET', 'PUT', 'DELETE'])
 def products_item(request,pk):
-    product = get_object_or_404(Product, pk=pk) #Uses the django shortcuts import
+    product = get_object_or_404(Product, pk=pk) #Uses the django shortcuts import to query object from db
     if request.method == 'GET':
         serializer = ProductSerializers(product)
         return Response(serializer.data)
@@ -30,3 +30,6 @@ def products_item(request,pk):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)
+    elif request.method == 'DELETE':
+        product.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
